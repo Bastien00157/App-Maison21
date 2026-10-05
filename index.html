@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f5f3ff">
+    <title>Maison ❤️</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="header">
+    <div>
+        <p class="mini-label">MON PETIT UNIVERS</p>
+        <h1>Bonjour <span id="nom-maman">Maman</span> ❤️</h1>
+        <p id="date"></p>
+    </div>
+
+
+<button class="header-button" data-action="toggle-theme" title="Changer le thème">🌙</button>
+
+
+</header>
+
+<main>
+
+
+<!-- ACCUEIL -->
+<section id="accueil" class="page active">
+
+    <div class="welcome-card">
+        <div class="welcome-icon">🏠</div>
+        <div>
+            <h2>Bienvenue à la maison</h2>
+            <p>Tout ce qu'il faut pour organiser le quotidien au même endroit.</p>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+        <button class="stat-card purple" data-page="taches">
+            <span>✅</span>
+            <strong id="nombre-taches">0</strong>
+            <small>Tâches restantes</small>
+        </button>
+
+        <button class="stat-card orange" data-page="courses">
+            <span>🛒</span>
+            <strong id="nombre-courses">0</strong>
+            <small>Courses</small>
+        </button>
+
+        <button class="stat-card green" data-page="repas">
+            <span>🍝</span>
+            <strong id="nombre-repas">0</strong>
+            <small>Repas prévus</small>
+        </button>
+
+        <button class="stat-card blue" data-page="planning">
+            <span>📅</span>
+            <strong id="nombre-evenements">0</strong>
+            <small>Événements</small>
+        </button>
+    </div>
+
+    <div class="section-title">
+        <div>
+            <p class="mini-label">AUJOURD'HUI</p>
+            <h2>Ma journée</h2>
+        </div>
+    </div>
+
+    <div class="progress-card">
+        <div class="progress-top">
+            <div>
+                <strong>Progression des tâches</strong>
+                <p id="texte-progression">Aucune tâche</p>
+            </div>
+            <strong id="pourcentage-taches">0%</strong>
+        </div>
+
+        <div class="progress-bar">
+            <div id="barre-progression"></div>
+        </div>
+    </div>
+
+    <div class="quick-actions">
+        <button class="quick-action purple" data-action="open-task">
+            <span>➕</span>
+            <small>Nouvelle tâche</small>
+        </button>
+
+        <button class="quick-action orange" data-action="open-course">
+            <span>🛒</span>
+            <small>Ajouter une course</small>
+        </button>
+
+        <button class="quick-action green" data-action="open-meal">
+            <span>🍝</span>
+            <small>Ajouter un repas</small>
+        </button>
+
+        <button class="quick-action blue" data-action="open-event">
+            <span>📅</span>
+            <small>Ajouter un événement</small>
+        </button>
+    </div>
+
+    <div class="section-title">
+        <div>
+            <p class="mini-label">À VENIR</p>
+            <h2>Aujourd'hui</h2>
+        </div>
+    </div>
+
+    <div id="accueil-agenda" class="empty-state">
+        <span>✨</span>
+        <strong>Rien de prévu</strong>
+        <p>Profite de cette journée tranquille !</p>
+    </div>
+
+    <div class="section-title">
+        <div>
+            <p class="mini-label">REPAS</p>
+            <h2>Prochain repas</h2>
+        </div>
+    </div>
+
+    <div id="prochain-repas" class="empty-state">
+        <span>🍽️</span>
+        <strong>Aucun repas prévu</strong>
+        <p>Ajoute ton prochain repas.</p>
+    </div>
+
+</section>
+
+<!-- TÂCHES -->
+<section id="taches" class="page">
+
+    <div class="page-title">
+        <button class="back-button" data-page="accueil">←</button>
+        <div>
+            <p class="mini-label">ORGANISATION</p>
+            <h2>Tâches</h2>
+            <p>Les choses à faire</p>
+        </div>
+    </div>
+
+    <div class="toolbar">
+        <input id="recherche-taches" type="search" placeholder="🔎 Rechercher une tâche...">
+
+        <select id="filtre-taches">
+            <option value="toutes">Toutes</option>
+            <option value="a-faire">À faire</option>
+            <option value="terminees">Terminées</option>
+        </select>
+
+        <select id="tri-taches">
+            <option value="date">Par date</option>
+            <option value="priorite">Par priorité</option>
+            <option value="creation">Plus récentes</option>
+        </select>
+    </div>
+
+    <div class="list-actions">
+        <button class="secondary-button" data-action="open-task">＋ Ajouter</button>
+        <button class="danger-button" data-action="clean-tasks">🧹 Nettoyer terminées</button>
+    </div>
+
+    <div class="list-info">
+        <span id="infos-taches">0 tâche</span>
+    </div>
+
+    <div id="liste-taches"></div>
+
+</section>
+
+<!-- COURSES -->
+<section id="courses" class="page">
+
+    <div class="page-title">
+        <button class="back-button" data-page="accueil">←</button>
+        <div>
+            <p class="mini-label">MAISON</p>
+            <h2>Courses</h2>
+            <p>Ne rien oublier 🛒</p>
+        </div>
+    </div>
+
+    <div class="toolbar">
+        <input id="recherche-courses" type="search" placeholder="🔎 Rechercher...">
+
+        <select id="filtre-courses">
+            <option value="toutes">Toutes</option>
+            <option value="a-acheter">À acheter</option>
+            <option value="achetees">Achetées</option>
+        </select>
+    </div>
+
+    <div class="list-actions">
+        <button class="secondary-button" data-action="open-course">＋ Ajouter</button>
+        <button class="danger-button" data-action="clean-courses">🧹 Nettoyer achetées</button>
+    </div>
+
+    <div class="list-info">
+        <span id="infos-courses">0 article</span>
+    </div>
+
+    <div id="liste-courses"></div>
+
+</section>
+
+<!-- REPAS -->
+<section id="repas" class="page">
+
+    <div class="page-title">
+        <button class="back-button" data-page="plus">←</button>
+        <div>
+            <p class="mini-label">MENU</p>
+            <h2>Repas 🍝</h2>
+            <p>Les repas des prochains jours</p>
+        </div>
+    </div>
+
+    <div class="list-actions">
+        <button class="secondary-button" data-action="open-meal">＋ Ajouter un repas</button>
+        <button class="secondary-button" data-action="random-meal">🎲 Idée de repas</button>
+    </div>
+
+    <div id="liste-repas"></div>
+
+</section>
+
+<!-- PLANNING -->
+<section id="planning" class="page">
+
+    <div class="page-title">
+        <button class="back-button" data-page="accueil">←</button>
+        <div>
+            <p class="mini-label">ORGANISATION</p>
+            <h2>Planning 📅</h2>
+            <p>Les événements à venir</p>
+        </div>
+    </div>
+
+    <div class="toolbar">
+        <input id="recherche-planning" type="search" placeholder="🔎 Rechercher...">
+    </div>
+
+    <div class="list-actions">
+        <button class="secondary-button" data-action="open-event">＋ Ajouter</button>
+    </div>
+
+    <div id="liste-planning"></div>
+
+</section>
+
+<!-- PLUS -->
+<section id="plus" class="page">
+
+    <div class="page-title no-back">
+        <div>
+            <p class="mini-label">OUTILS</p>
+            <h2>Plus</h2>
+            <p>Tout le reste de la maison</p>
+        </div>
+    </div>
+
+    <div class="menu-grid">
+
+        <button class="menu-card green" data-page="repas">
+            <span>🍝</span>
+            <strong>Repas</strong>
+            <small>Gérer le menu</small>
+        </button>
+
+        <button class="menu-card purple" data-page="notes">
+            <span>📝</span>
+            <strong>Notes</strong>
+            <small>Mes petites notes</small>
+        </button>
+
+        <button class="menu-card orange" data-page="budget">
+            <span>💰</span>
+            <strong>Budget</strong>
+            <small>Suivre les dépenses</small>
+        </button>
+
+        <button class="menu-card blue" data-page="reglages">
+            <span>⚙️</span>
+            <strong>Réglages</strong>
+            <small>Personnaliser l'application</small>
+        </button>
+
+    </div>
+
+    <div class="tip-card">
+        <span>💡</span>
+        <div>
+            <strong>Astuce</strong>
+            <p>Tu peux tout modifier et toutes les données sont sauvegardées automatiquement.</p>
+        </div>
+    </div>
+
+</section>
+
+<!-- NOTES -->
+<section id="notes" class="page">
+
+    <div class="page-title">
+        <button class="back-button" data-page="plus">←</button>
+        <div>
+            <p class="mini-label">MES NOTES</p>
+            <h2>Notes 📝</h2>
+            <p>Les petites choses à retenir</p>
+        </div>
+    </div>
+
+    <div class="toolbar">
+        <input id="recherche-notes" type="search" placeholder="🔎 Rechercher une note...">
+    </div>
+
+    <div class="list-actions">
+        <button class="secondary-button" data-action="open-note">＋ Nouvelle note</button>
+    </div>
+
+    <div id="liste-notes"></div>
+
+</section>
+
+<!-- BUDGET -->
+<section id="budget" class="page">
+
+    <div class="page-title">
+        <button class="back-button" data-page="plus">←</button>
+        <div>
+            <p class="mini-label">FINANCES</p>
+            <h2>Budget 💰</h2>
+            <p>Suivi des dépenses</p>
+        </div>
+    </div>
+
+    <div class="budget-total">
+        <small>Dépenses de ce mois</small>
+        <strong id="total-budget">0,00 €</strong>
+    </div>
+
+    <div class="list-actions">
+        <button class="secondary-button" data-action="open-expense">＋ Ajouter une dépense</button>
+    </div>
+
+    <div id="liste-depenses"></div>
+
+</section>
+
+<!-- RÉGLAGES -->
+<section id="reglages" class="page">
+
+    <div class="page-title">
+        <button class="back-button" data-page="plus">←</button>
+        <div>
+            <p class="mini-label">APPLICATION</p>
+            <h2>Réglages ⚙️</h2>
+            <p>Personnaliser Maison</p>
+        </div>
+    </div>
+
+    <div class="settings-card">
+        <h3>👩 Nom affiché</h3>
+        <p>Le prénom utilisé sur l'accueil.</p>
+
+        <div class="form-inline">
+            <input id="nom-maman-input" type="text" placeholder="Maman">
+            <button class="primary-button" data-action="save-name">Enregistrer</button>
+        </div>
+    </div>
+
+    <div class="settings-card">
+        <h3>🌙 Apparence</h3>
+        <p>Choisis entre le mode clair et le mode sombre.</p>
+        <button class="secondary-button full-button" data-action="toggle-theme">
+            Changer le thème
+        </button>
+    </div>
+
+    <div class="settings-card">
+        <h3>💾 Données</h3>
+        <p>Garde une copie de toutes les données de l'application.</p>
+
+        <div class="settings-buttons">
+            <button class="secondary-button" data-action="export-data">📤 Exporter</button>
+            <button class="secondary-button" data-action="import-data">📥 Importer</button>
+        </div>
+
+        <input type="file" id="import-file" accept=".json" hidden>
+    </div>
+
+    <div class="settings-card danger-zone">
+        <h3>⚠️ Zone dangereuse</h3>
+        <p>Supprime toutes les données enregistrées dans l'application.</p>
+        <button class="danger-button full-button" data-action="reset-data">
+            🗑️ Réinitialiser complètement
+        </button>
+    </div>
+
+</section>
+
+<!-- MAMAN -->
+<section id="maman" class="page">
+
+    <div class="page-title no-back">
+        <div>
+            <p class="mini-label">❤️ POUR TOI</p>
+            <h2>Maman</h2>
+            <p>Un petit coin rien que pour toi</p>
+        </div>
+    </div>
+
+    <div class="maman-card">
+
+        <div class="photo-container">
+            <img id="photo-maman" alt="Photo de Maman" hidden>
+
+            <div id="photo-placeholder">
+                <span>📷</span>
+                <strong>Ta photo</strong>
+            </div>
+        </div>
+
+        <div class="maman-message">
+            <div class="message-header">
+                <span>💌</span>
+                <strong>Un petit mot</strong>
+            </div>
+
+            <p id="message-maman">
+                Coucou Maman,<br><br>
+                Je te souhaite un joyeux anniversaire pour tes 40 ans ! J’espère que le cadeau te plaira, car j’ai pris du temps à le faire et je l’ai fait avec amour.<br><br>
+                Bon anniversaire, Maman ! ❤️
+            </p>
+        </div>
+
+    </div>
+
+    <div class="heart-footer">
+        ❤️ Fait avec amour
+    </div>
+
+</section>
+
+
+</main>
+
+<!-- NAVIGATION -->
+
+<nav class="navigation">
+
+
+<button class="nav-button active" data-page="accueil">
+    <span>🏠</span>
+    <small>Accueil</small>
+</button>
+
+<button class="nav-button" data-page="taches">
+    <span>✅</span>
+    <small>Tâches</small>
+</button>
+
+<button class="nav-button" data-page="courses">
+    <span>🛒</span>
+    <small>Courses</small>
+</button>
+
+<button class="nav-button" data-page="planning">
+    <span>📅</span>
+    <small>Planning</small>
+</button>
+
+<button class="nav-button" data-page="plus">
+    <span>•••</span>
+    <small>Plus</small>
+</button>
+
+<button class="nav-button maman-nav" data-page="maman">
+    <span>❤️</span>
+    <small>Maman</small>
+</button>
+
+
+</nav>
+
+</div>
+
+<!-- MODALE TÂCHE -->
+
+<div class="modal" id="modal-tache">
+    <div class="modal-box">
+
+
+    <div class="modal-header">
+        <div>
+            <p class="mini-label">ORGANISATION</p>
+            <h2 id="titre-modal-tache">Nouvelle tâche</h2>
+        </div>
+        <button class="close-button" data-action="close-modal">×</button>
+    </div>
+
+    <form id="form-tache">
+
+        <label>Nom de la tâche</label>
+        <input id="tache-nom" type="text" required placeholder="Ex : Arroser les plantes">
+
+        <label>Catégorie</label>
+        <select id="tache-categorie">
+            <option>Maison</option>
+            <option>Courses</option>
+            <option>Jardin</option>
+            <option>Administratif</option>
+            <option>Personnel</option>
+            <option>Autre</option>
+        </select>
+
+        <label>Priorité</label>
+        <select id="tache-priorite">
+            <option value="normale">Normale</option>
+            <option value="importante">Importante</option>
+            <option value="urgente">Urgente</option>
+        </select>
+
+        <label>Date</label>
+        <input id="tache-date" type="date">
+
+        <label>Répétition</label>
+        <select id="tache-recurrence">
+            <option value="aucune">Aucune</option>
+            <option value="quotidienne">Tous les jours</option>
+            <option value="hebdomadaire">Toutes les semaines</option>
+            <option value="intervalle">Tous les X jours</option>
+        </select>
+
+        <label id="label-intervalle" class="hidden">Nombre de jours</label>
+        <input id="tache-intervalle" class="hidden" type="number" min="1" value="2">
+
+        <div class="modal-buttons">
+            <button type="button" class="secondary-button" data-action="close-modal">Annuler</button>
+            <button type="submit" class="primary-button">Enregistrer</button>
+        </div>
+
+    </form>
+</div>
+
+
+</div>
+
+<!-- MODALE COURSE -->
+
+<div class="modal" id="modal-course">
+    <div class="modal-box">
+
+
+    <div class="modal-header">
+        <div>
+            <p class="mini-label">COURSES</p>
+            <h2 id="titre-modal-course">Ajouter une course</h2>
+        </div>
+        <button class="close-button" data-action="close-modal">×</button>
+    </div>
+
+    <form id="form-course">
+
+        <label>Article</label>
+        <input id="course-nom" type="text" required placeholder="Ex : Lait">
+
+        <label>Quantité</label>
+        <input id="course-quantite" type="text" placeholder="Ex : 2">
+
+        <label>Catégorie</label>
+        <select id="course-categorie">
+            <option>Alimentation</option>
+            <option>Boissons</option>
+            <option>Maison</option>
+            <option>Hygiène</option>
+            <option>Autre</option>
+        </select>
+
+        <div class="modal-buttons">
+            <button type="button" class="secondary-button" data-action="close-modal">Annuler</button>
+            <button type="submit" class="primary-button">Enregistrer</button>
+        </div>
+
+    </form>
+</div>
+
+
+</div>
+
+<!-- MODALE REPAS -->
+
+<div class="modal" id="modal-repas">
+    <div class="modal-box">
+
+
+    <div class="modal-header">
+        <div>
+            <p class="mini-label">MENU</p>
+            <h2 id="titre-modal-repas">Ajouter un repas</h2>
+        </div>
+        <button class="close-button" data-action="close-modal">×</button>
+    </div>
+
+    <form id="form-repas">
+
+        <label>Date</label>
+        <input id="repas-date" type="date" required>
+
+        <label>Moment</label>
+        <select id="repas-type">
+            <option>Petit-déjeuner</option>
+            <option>Déjeuner</option>
+            <option>Dîner</option>
+        </select>
+
+        <label>Repas</label>
+        <input id="repas-nom" type="text" required placeholder="Ex : Carbonara">
+
+        <div class="modal-buttons">
+            <button type="button" class="secondary-button" data-action="close-modal">Annuler</button>
+            <button type="submit" class="primary-button">Enregistrer</button>
+        </div>
+
+    </form>
+</div>
+
+
+</div>
+
+<!-- MODALE ÉVÉNEMENT -->
+
+<div class="modal" id="modal-evenement">
+    <div class="modal-box">
+
+
+    <div class="modal-header">
+        <div>
+            <p class="mini-label">PLANNING</p>
+            <h2 id="titre-modal-evenement">Ajouter un événement</h2>
+        </div>
+        <button class="close-button" data-action="close-modal">×</button>
+    </div>
+
+    <form id="form-evenement">
+
+        <label>Titre</label>
+        <input id="event-nom" type="text" required placeholder="Ex : Rendez-vous">
+
+        <label>Date</label>
+        <input id="event-date" type="date" required>
+
+        <label>Heure</label>
+        <input id="event-heure" type="time">
+
+        <label>Icône</label>
+        <select id="event-icone">
+            <option>📅</option>
+            <option>🏠</option>
+            <option>🛒</option>
+            <option>🚗</option>
+            <option>👨‍👩‍👧</option>
+            <option>💊</option>
+            <option>🎂</option>
+            <option>⭐</option>
+        </select>
+
+        <div class="modal-buttons">
+            <button type="button" class="secondary-button" data-action="close-modal">Annuler</button>
+            <button type="submit" class="primary-button">Enregistrer</button>
+        </div>
+
+    </form>
+</div>
+
+
+</div>
+
+<!-- MODALE NOTE -->
+
+<div class="modal" id="modal-note">
+    <div class="modal-box">
+
+
+    <div class="modal-header">
+        <div>
+            <p class="mini-label">NOTES</p>
+            <h2 id="titre-modal-note">Nouvelle note</h2>
+        </div>
+        <button class="close-button" data-action="close-modal">×</button>
+    </div>
+
+    <form id="form-note">
+
+        <label>Titre</label>
+        <input id="note-titre" type="text" required placeholder="Ex : Idée">
+
+        <label>Contenu</label>
+        <textarea id="note-contenu" rows="7" required placeholder="Écris ta note..."></textarea>
+
+        <div class="modal-buttons">
+            <button type="button" class="secondary-button" data-action="close-modal">Annuler</button>
+            <button type="submit" class="primary-button">Enregistrer</button>
+        </div>
+
+    </form>
+</div>
+
+
+</div>
+
+<!-- MODALE DÉPENSE -->
+
+<div class="modal" id="modal-depense">
+    <div class="modal-box">
+
+
+    <div class="modal-header">
+        <div>
+            <p class="mini-label">BUDGET</p>
+            <h2>Ajouter une dépense</h2>
+        </div>
+        <button class="close-button" data-action="close-modal">×</button>
+    </div>
+
+    <form id="form-depense">
+
+        <label>Description</label>
+        <input id="depense-nom" type="text" required placeholder="Ex : Courses">
+
+        <label>Montant</label>
+        <input id="depense-montant" type="number" min="0" step="0.01" required placeholder="0.00">
+
+        <label>Catégorie</label>
+        <select id="depense-categorie">
+            <option>Courses</option>
+            <option>Maison</option>
+            <option>Transport</option>
+            <option>Loisirs</option>
+            <option>Factures</option>
+            <option>Autre</option>
+        </select>
+
+        <label>Date</label>
+        <input id="depense-date" type="date" required>
+
+        <div class="modal-buttons">
+            <button type="button" class="secondary-button" data-action="close-modal">Annuler</button>
+            <button type="submit" class="primary-button">Enregistrer</button>
+        </div>
+
+    </form>
+</div>
+
+
+</div>
+
+<div id="toast-container"></div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
